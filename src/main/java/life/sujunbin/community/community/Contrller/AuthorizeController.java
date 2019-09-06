@@ -44,7 +44,7 @@ public class AuthorizeController {
         String accesstoken = githubProvide.getAccessToken(accessToken);
         GithubUser githubUser = githubProvide.getUser(accesstoken);
 
-        if(githubUser.getName()!=null)
+        if(githubUser.getName()!=null&&githubUser.getId() !=null)
         {
             User user = new User();
             user.setName(githubUser.getName());
@@ -53,6 +53,7 @@ public class AuthorizeController {
             user.setAccountId(String.valueOf(githubUser.getId()));
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
+            user.setAvatarUrl(githubUser.getAvatarUrl());
             userMapper.insertuser(user);
             response.addCookie(new Cookie("token", token));
             return "redirect:/";

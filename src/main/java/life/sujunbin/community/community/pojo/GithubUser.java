@@ -13,6 +13,7 @@ import lombok.ToString;
 @ToString
 public class GithubUser {
     private String name;
-    private  String bio;
-    private  long id;
+    private  String bio;   //个人签名
+    private  Long id;
+    private String avatarUrl;
 }

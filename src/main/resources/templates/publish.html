@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>发布 - JAVA社区</title>
+    <link rel=" stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/community.css">
+    <script src="js/jquery.js" type="application/javascript"></script>
+    <script src="js/bootstrap.min.js" type="application/javascript"></script>
+
+</head>
+<body class="bady-color">
+<div th:insert="nav :: nav"></div>
+<div class="container-fluid mian">
+    <div class="row">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>发起</h2>
+            <hr>
+            <form action="/publish" method="post">
+                <div class="form-group">
+                    <label class="title">问题标题（简单扼要）:</label>
+                    <input type="text" class="form-control" name="title" placeholder="问题标题" th:value="${title}">
+                </div>
+                <div class="form-group">
+                    <label class="title">问题补充（必填，请参考右侧提示）:</label>
+
+                    <textarea name="description" id="description" class="form-control" rows="10"
+                              th:text="${description} "></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="title">添加标签:</label>
+                    <input type="text" class="form-control" id="tag" name="tag" placeholder="输入标签，以','号隔开" th:value="${tag}">
+                </div>
+                <span class="alert alert-danger" th:text="${error}" th:if="${error!=null}"></span>
+                <button type="submit" class="btn btn-success btn-publish">发布</button>
+            </form>
+        </div>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" clas="title">
+            <h2>问题发起指南：</h2><br>
+            问题标题：不超过25个字<br>
+            问题补充：详细地补充你的问题内容，并提供一些软件版本信息问题的上下文信息等。<br>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
