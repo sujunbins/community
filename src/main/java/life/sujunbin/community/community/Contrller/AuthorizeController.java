@@ -5,15 +5,14 @@ import life.sujunbin.community.community.Provider.GithubProvide;
 import life.sujunbin.community.community.pojo.AccessToken;
 import life.sujunbin.community.community.pojo.GithubUser;
 import life.sujunbin.community.community.pojo.User;
+import life.sujunbin.community.community.service.Userservice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
@@ -28,8 +27,9 @@ public class AuthorizeController {
     private String client_secret;
     @Value("${github.redirect.uri}")
     private String redirect_uri;
+
     @Autowired
-    private UserMapper userMapper;
+    private Userservice userservice;
 
     @RequestMapping("/callback")
     public String calback(@RequestParam(name = "code") String code,
@@ -51,10 +51,9 @@ public class AuthorizeController {
             String token = UUID.randomUUID().toString();
             user.setToken(token);
             user.setAccountId(String.valueOf(githubUser.getId()));
-            user.setGmtCreate(System.currentTimeMillis());
-            user.setGmtModified(user.getGmtCreate());
+
             user.setAvatarUrl(githubUser.getAvatarUrl());
-            userMapper.insertuser(user);
+            userservice.creat_or_update(user);
             response.addCookie(new Cookie("token", token));
             return "redirect:/";
         }else{

@@ -3,17 +3,16 @@ package life.sujunbin.community.community.Contrller;
 import life.sujunbin.community.community.Mapper.QuestionMapper;
 import life.sujunbin.community.community.Mapper.UserMapper;
 import life.sujunbin.community.community.pojo.Question;
+import life.sujunbin.community.community.pojo.QuestionDTO;
 import life.sujunbin.community.community.pojo.User;
+import life.sujunbin.community.community.service.Questionservice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.awt.*;
+import java.io.File;
 
 /**
  * @author: 苏俊滨
@@ -21,11 +20,23 @@ import java.awt.*;
  */
 @Controller
 public class Publish {
-    @Autowired
-    private QuestionMapper questionMapper;
 
     @Autowired
-    private UserMapper userMapper;
+    private Questionservice questionservice;
+    @GetMapping("/publish/{id}")
+    public String edit(@PathVariable(name = "id")Long id,Model model)
+    {
+        QuestionDTO questionDTO =  questionservice.getbyid(id);
+        model.addAttribute("title", questionDTO.getTitle());
+        model.addAttribute("description", questionDTO.getDescription());
+        model.addAttribute("tag", questionDTO.getTag());
+        model.addAttribute("id", questionDTO.getId());
+        return "publish";
+    }
+
+
+
+
 
     @GetMapping("/publish")
     public String publish() {
@@ -37,6 +48,7 @@ public class Publish {
             @RequestParam(value = "title",required = false) String title,
             @RequestParam(value = "description",required = false) String description,
             @RequestParam(value = "tag",required = false) String tag,
+            @RequestParam(value = "id",required = false)Long id,
             HttpServletRequest request, Model model
     ) {
         model.addAttribute("title", title);
@@ -56,29 +68,15 @@ public class Publish {
             return "publish";
         }
 
-        User user = null;
-        Cookie[] cookies = request.getCookies();
-
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("token")) {
-                String token = cookie.getValue();
-                user = userMapper.findbytoken(token);
-                if (user != null) {
-                    request.getSession().setAttribute("user", user);
-                }
-                break;
-            }
-        }
+        User user = (User) request.getSession().getAttribute("user");
         if (user == null) {
             model.addAttribute("error", "用户未登录");
-            return "/publish";
+            return "publish";
         }
 
         Question question = new Question(title, description, user.getId(), tag);
-        question.setGmtCreate(System.currentTimeMillis());
-        question.setGmtModified(question.getGmtCreate());
-
-        questionMapper.create(question);
+        question.setId(id);
+        questionservice.create_or_update(question);
         return "redirect:/";
     }
 

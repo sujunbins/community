@@ -12,18 +12,18 @@ import lombok.ToString;
 @Getter
 @ToString
 public class Question {
-    private Integer id;
+    private Long id;
     private String title;
     private String description;
     private String tag;
     private Long gmtCreate;
     private Long gmtModified;
     private Integer likeCount;
-    private Integer creator;
+    private Long creator;
     private Integer viewCount;
     private Integer commentCount;
     public Question(String title,String description,
-                    int creator,String tag )
+                    Long creator,String tag )
     {
         this.title = title;
         this.creator = creator;

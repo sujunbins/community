@@ -4,6 +4,7 @@ import life.sujunbin.community.community.pojo.Question;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -21,4 +22,23 @@ public interface QuestionMapper {
 
     @Select("select count(1) from question")
     Integer count();
+    @Select("select *from question where creator = #{userId}  limit #{offset},#{size}")
+    List<Question> get_prfile_list(Long userId, Integer offset, Integer size);
+
+    @Select("select count(1) from question where creator = #{userId}")
+    Integer countbyuser(Long userId);
+
+    @Select("select * from question where id = #{id}")
+    Question getbyid(Long id);
+
+    @Update("update question set title = #{title},description = #{description}," +
+            "gmt_modified = #{gmtModified},tag = #{tag}, view_count = #{viewCount} ," +
+            "comment_count = #{commentCount},like_count = #{likeCount} where id = #{id}")
+    void updata(Question question);
+
+    @Update("update question set view_count = view_count+#{viewCount} where id = #{id}")
+    void incview(Question question);
+
+    @Update("update question set comment_count = comment_count+#{commentCount} where id = #{id}")
+    void insertComment(Long id);
 }

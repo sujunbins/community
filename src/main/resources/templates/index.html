@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>JAVA社区</title>
-    <link rel=" stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="css/community.css">
-    <script src="js/jquery.js" type="application/javascript"></script>
-    <script src="js/bootstrap.min.js" type="application/javascript"></script>
+    <link rel=" stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/community.css">
+    <script src="/js/jquery.js" type="application/javascript"></script>
+    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
 
 </head>
 <body class="bady-color">
@@ -25,10 +25,14 @@
                     </a>
                 </div>
                 <div class="media-body">
-                    <h2 class="media-heading " th:text="${question.title}">Middle aligned media</h2>
+                    <h4 class="media-heading " >
+                        <a th:href="@{'/question/'+${question.id}}" th:text="${question.title}"></a>
+                    </h4>
                     <p class="title">点击进入文章</p>
-                    <span class="index_tag" th:text="	${question.user.name}+'发起了问题 •'+ ${question.likeCount} +'人关注 •' +${question.commentCount}+' 个回复 •'+${question.viewCount}  +'次浏览 •'+
+                    <span class="index_tag" th:text="	 ${question.likeCount} +'人关注 •' +${question.commentCount}+' 个回复 •'+${question.viewCount}  +'次浏览 •'+
                            ${#dates.format(question.gmtCreate, 'yyyy-MM-dd')}"> </span>
+
+
                 </div>
                 <hr>
             </div>

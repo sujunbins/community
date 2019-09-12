@@ -12,13 +12,13 @@ import lombok.ToString;
 @Getter
 @ToString
 public class User {
-    private Integer id;
+    private Long id;
     private String name;
     private String accountId;
     private String token;
     private Long gmtCreate;
     private Long gmtModified;
-    private  String avatarUrl;
+    private String avatarUrl;
 
 
 }
