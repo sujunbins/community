@@ -1,6 +1,7 @@
 package life.sujunbin.community.community.Contrller;
 
 import life.sujunbin.community.community.pojo.QuestionDTO;
+import life.sujunbin.community.community.service.CommentService;
 import life.sujunbin.community.community.service.Questionservice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class QuestionController {
     @Autowired
     private Questionservice questionservice;
+    @Autowired
+    private CommentService commentService;
     @GetMapping("/question/{id}")
     public String question(@PathVariable(name = "id") Long id, Model model) {
         QuestionDTO question = questionservice.getbyid(id);

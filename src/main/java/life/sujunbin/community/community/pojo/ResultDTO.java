@@ -11,12 +11,12 @@ import lombok.Data;
 @Data
 public class ResultDTO {
     private Integer code;
-    private String massage;
-    public static ResultDTO errofof(Integer code,String massage)
+    private String message;
+    public static ResultDTO errofof(Integer code,String message)
     {
         ResultDTO resultDTO = new ResultDTO();
         resultDTO.setCode(code);
-        resultDTO.setMassage(massage);
+        resultDTO.setMessage(message);
         return resultDTO;
     }
 

@@ -1,41 +1,82 @@
-.mian{
+.mian {
     margin: 30px;
     background-color: white;
 }
-.bady-color{
-    background-color:#efefef;
+
+.bady-color {
+    background-color: #efefef;
 }
-.title{
+
+.title {
     font-size: 20px;
 }
-.btn-publish{
+
+.btn-publish {
     font-size: 20px;
     float: right;
     margin-bottom: 15px;
-    margin-right:5px;
+    margin-right: 5px;
 
 }
-.index_image{
-    width: 80px;
-    height: 80px;
+
+.index_image {
+    width: 40px;
+    height: 40px;
 }
-.index_tag{
+
+.media_body {
+    padding-top: 10px;
+}
+
+.index_tag {
     font-size: 12px;
     font-weight: normal;
     color: #999;
 }
-.profile .section
-{
+
+.profile .section {
     margin-top: 15px;
 }
-.menu{
+
+.menu {
     color: #999;
     font-size: 13px;
 }
-.jumbotron
-{
+
+.jumbotron {
 
 }
+
+.comment {
+    margin: 10px 0;
+    resize: none;
+}
+
+.btn-omment {
+    float: right;
+    margin-bottom: 10px;
+}
+.menu_comment {
+
+    color: #999;
+    margin-top: 5px;
+}
+.menu_comment .icon{
+    font-size:15px;
+    margin-top:6px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+.menu_comment .icon:hover{
+    color: #499ef3;
+}
+a{
+    cursor: pointer;
+    color: #155faa;
+}
+
+
+
 
 
 

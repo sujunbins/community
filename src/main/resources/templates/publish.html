@@ -15,7 +15,7 @@
 <div class="container-fluid mian">
     <div class="row">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
-            <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>发起</h2>
+            <h2 th:text="${title==null}? '发起问题':${title}"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></h2>
             <hr>
             <form action="/publish" method="post">
                 <input type = "hidden" th:value = "${id}" name = "id">
@@ -26,7 +26,7 @@
                 <div class="form-group">
                     <label class="title">问题补充（必填，请参考右侧提示）:</label>
 
-                    <textarea name="description" id="description" class="form-control" rows="10"
+                    <textarea name="description" id="description" class="form-control comment" rows="10"
                               th:text="${description} "></textarea>
                 </div>
                 <div class="form-group">

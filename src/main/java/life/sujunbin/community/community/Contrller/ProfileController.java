@@ -1,8 +1,9 @@
 package life.sujunbin.community.community.Contrller;
 
-import life.sujunbin.community.community.Mapper.UserMapper;
+
+import life.sujunbin.community.community.model.User;
 import life.sujunbin.community.community.pojo.Pagintion;
-import life.sujunbin.community.community.pojo.User;
+;
 import life.sujunbin.community.community.service.Questionservice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.Cookie;
+
 import javax.servlet.http.HttpServletRequest;
 
 /**

@@ -1,5 +1,6 @@
 package life.sujunbin.community.community.pojo;
 
+import life.sujunbin.community.community.model.User;
 import lombok.Data;
 
 /**

@@ -16,10 +16,10 @@ public enum  CustomizeErrorcode implements ICustomizeException {
 
     private Integer code;
 
-    CustomizeErrorcode(Integer code ,String massage)
+    CustomizeErrorcode(Integer code ,String message)
     {
         this.code = code;
-        this.message = massage;
+        this.message = message;
     }
 
     @Override

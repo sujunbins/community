@@ -1,10 +1,10 @@
 package life.sujunbin.community.community.Contrller;
 
-import life.sujunbin.community.community.Mapper.UserMapper;
+
 import life.sujunbin.community.community.Provider.GithubProvide;
+import life.sujunbin.community.community.model.User;
 import life.sujunbin.community.community.pojo.AccessToken;
 import life.sujunbin.community.community.pojo.GithubUser;
-import life.sujunbin.community.community.pojo.User;
 import life.sujunbin.community.community.service.Userservice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
