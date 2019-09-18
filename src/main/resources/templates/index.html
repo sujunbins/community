@@ -44,23 +44,23 @@
                         </a>
                     </li>
                     <li th:if="${pagintion.showPrevious}">
-                        <a th:href="@{/(page=${pagintion.page-1})}" aria-label="Previous">
+                        <a th:href="@{/(page=${pagintion.page-1},search=${search})}" aria-label="Previous">
                             <span aria-hidden="true">&lt;</span>
                         </a>
                     </li>
                     <li th:each="page :${pagintion.pages} "
                         th:class=" ${pagintion.page==page}?'active':''">
-                        <a th:href="@{/(page=${page})}" th:text="${page}">
+                        <a th:href="@{/(page=${page},search=${search})}" th:text="${page}">
 
                         </a>
                     </li>
                     <li th:if="${pagintion.showNext}">
-                        <a th:href="@{/(page=${pagintion.page+1})}" aria-label="Previous">
+                        <a th:href="@{/(page=${pagintion.page+1},search=${search})}" aria-label="Previous">
                             <span aria-hidden="true">&gt;</span>
                         </a>
                     </li>
                     <li th:if="${pagintion.showEndPage}">
-                        <a th:href="@{/(page=${pagintion.totalpage})}" aria-label="Previous">
+                        <a th:href="@{/(page=${pagintion.totalpage},search=${search})}" aria-label="Previous">
                             <span aria-hidden="true">&gt;&gt;</span>
                         </a>
                     </li>

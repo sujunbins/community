@@ -23,16 +23,18 @@ public class IndexController {
     @RequestMapping("/")
     public String index(HttpServletRequest request,Model model,
     @RequestParam(name = "page",defaultValue = "1")Integer page,
-     @RequestParam(name = "size",defaultValue = "5")Integer size)
+     @RequestParam(name = "size",defaultValue = "5")Integer size,
+                        @RequestParam(name = "search",required = false)String serach)
     {
 
-        Pagintion pagintion = questionservice.get_index_list(page,size);
+        Pagintion pagintion = questionservice.get_index_list(serach,page,size);
         model.addAttribute("pagintion",pagintion);
+        model.addAttribute("search", serach);
         return "index";
     }
 
 
-    @RequestMapping("/text")
+    @RequestMapping("/ ")
     public String text()
     {
 

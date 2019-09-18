@@ -12,6 +12,7 @@ import life.sujunbin.community.community.model.UserExample;
 import life.sujunbin.community.community.pojo.Pagintion;
 import life.sujunbin.community.community.model.Question;
 import life.sujunbin.community.community.pojo.QuestionDTO;
+import life.sujunbin.community.community.pojo.QuestionQueryDTO;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
@@ -36,9 +37,18 @@ public class Questionservice {
     @Autowired
     private QuestionExtMapper questionExtMapper;
 
-    public Pagintion get_index_list(Integer page, Integer size) {
+    public Pagintion get_index_list(String search,Integer page, Integer size) {
+
+        if(StringUtils.isNoneBlank(search))
+        {
+            String[] tags = StringUtils.split(search, " ");
+            search = Arrays.stream(tags).collect(Collectors.joining("|"));
+        }
         Pagintion<QuestionDTO> pagintion = new Pagintion<>();
-        Integer totalCount = (int)questionMapper.countByExample(new QuestionExample());
+
+        QuestionQueryDTO questionQueryDTO = new QuestionQueryDTO();
+        questionQueryDTO.setSearch(search);
+        Integer totalCount = (int)questionExtMapper.countBySearch(questionQueryDTO);
 
         pagintion.setPagintion(totalCount, page, size);
         if (page < 1) {
@@ -50,9 +60,9 @@ public class Questionservice {
 
         Integer offset = size * (page - 1);
 
-        QuestionExample questionExample = new QuestionExample();
-        questionExample.setOrderByClause("gmt_create desc");
-        List<Question> questions = questionMapper.selectByExampleWithRowbounds(questionExample,new RowBounds(offset,size));
+        questionQueryDTO.setPage(offset);
+        questionQueryDTO.setSize(size);
+        List<Question> questions = questionExtMapper.selectBySearch(questionQueryDTO);
 
         List<QuestionDTO> questionDTOS = new ArrayList<>();
 
