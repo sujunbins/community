@@ -6,8 +6,14 @@
     <link rel=" stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="/css/community.css">
-    <script src="/js/jquery.js" type="application/javascript"></script>
-    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+    <link rel="stylesheet" th:href="@{/css/editormd.preview.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/editormd.min.css}" />
+    <script th:src="@{/js/jquery.js}" type="application/javascript"></script>
+    <script th:src="@{/js/bootstrap.min.js}" type="application/javascript"></script>
+    <script th:src="@{/js/comment.js}" type="application/javascript"></script>
+    <script th:src="@{/js/editormd.min.js}"></script>
+    <script th:src="@{/js/lib/marked.min.js}"></script>
+    <script th:src="@{/js/lib/prettify.min.js}"></script>
 
 </head>
 <body class="bady-color">
@@ -15,25 +21,44 @@
 <div class="container-fluid mian">
     <div class="row">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
-            <h2 th:text="${title==null}? '发起问题':${title}"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></h2>
+            <h2 th:text="${title==null}? '发起问题':${title}"><span class="glyphicon glyphicon-plus"
+                                                                aria-hidden="true"></span></h2>
             <hr>
             <form action="/publish" method="post">
-                <input type = "hidden" th:value = "${id}" name = "id">
+                <input type="hidden" th:value="${id}" name="id">
                 <div class="form-group">
                     <label class="title">问题标题（简单扼要）:</label>
-                    <input type="text" class="form-control" name="title" placeholder="问题标题" th:value="${title}">
+                    <input type="text" class="form-control" autocomplete="off" name="title" placeholder="问题标题"
+                           th:value="${title}">
                 </div>
-                <div class="form-group">
+                <!--内容-->
+                <div class="form-group" id="test-editor">
                     <label class="title">问题补充（必填，请参考右侧提示）:</label>
-
-                    <textarea name="description" id="description" class="form-control comment" rows="10"
+                    <textarea name="description" id="description" class="form-control comment"  style="display:none;"rows="10"
                               th:text="${description} "></textarea>
                 </div>
-                <div class="form-group">
+
+                <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12" >
                     <label class="title">添加标签:</label>
-                    <input type="text" class="form-control" id="tag" name="tag" placeholder="输入标签，以','号隔开" th:value="${tag}">
+                    <input type="text" class="form-control" id="tag" name="tag" autocomplete="off"
+                           placeholder="输入标签，以','号隔开" th:value="${tag}" onclick="showSelectTag()">
+                    <div id="select-tag" style="display: none;" >
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation"  th:each="tag:${tags}"><a   th:href="@{'#'+${tag.categoryName}}"
+                                   aria-controls="home" role="tab"
+                                    th:text="${tag.categoryName}" data-toggle="tab">开发语言</a></li>
+                        </ul>
+                        <div class="tab-content col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div role="tabpanel" class="tab-pane " th:id="${tag.categoryName}"
+                            th:each="tag:${tags}">
+                        <span class="label label-info tag-info " th:each="tagname:${tag.tags}"th:onclick="selectTag([[${tagname}]]);">
+                        <span class="glyphicon glyphicon-tag"><a style="color: #ffffff;" th:text="${tagname}">标签1</a></span>
+                        </span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <span class="alert alert-danger" th:text="${error}" th:if="${error!=null}"></span>
+                <span class="alert alert-danger"style="margin-left: 15px;" th:text="${error}" th:if="${error!=null}"></span>
                 <button type="submit" class="btn btn-success btn-publish">发布</button>
             </form>
         </div>
@@ -45,5 +70,21 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $(function() {
+        var editor = editormd("test-editor", {
+            width  : "100%",
+             height : 450,
+             path   : "/js/lib/",
+             delay  : 0,
+             watch  : false,
+            placeholder:"请输入问题描述",
+            imageUpload    : true,
+            imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+            imageUploadURL : "/file/upload",
+
+        });
+    });
+</script>
 </body>
 </html>

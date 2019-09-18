@@ -13,4 +13,5 @@ public interface QuestionExtMapper {
 
 
     int insertComment(Question question);
+    List<Question>selectRelated(Question question);
 }

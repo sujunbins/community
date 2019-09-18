@@ -3,7 +3,7 @@ package life.sujunbin.community.community.Contrller;
 
 import life.sujunbin.community.community.model.User;
 import life.sujunbin.community.community.pojo.Pagintion;
-;
+import life.sujunbin.community.community.service.NotificationService;
 import life.sujunbin.community.community.service.Questionservice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,29 +24,34 @@ public class ProfileController {
 
     @Autowired
     private Questionservice questionservice;
-   @RequestMapping("/profile/{action}")
-    public String profile(@PathVariable(name = "action")String action, Model model,
+
+    @Autowired
+    private NotificationService notificationServer;
+
+    @RequestMapping("/profile/{action}")
+    public String profile(@PathVariable(name = "action") String action, Model model,
                           HttpServletRequest request,
-                          @RequestParam(name = "page",defaultValue = "1")Integer page,
-                          @RequestParam(name = "size",defaultValue = "5")Integer size)
-    {
+                          @RequestParam(name = "page", defaultValue = "1") Integer page,
+                          @RequestParam(name = "size", defaultValue = "5") Integer size) {
         User user = (User) request.getSession().getAttribute("user");
-        if(user==null)
-        {
+        if (user == null) {
             return "redirect:/";
         }
-        if("questions".equals(action))
-        {
+        if ("questions".equals(action)) {
             model.addAttribute("section", "questions");
             model.addAttribute("sectionName", "我的问题");
-        }else if("replies".equals(action))
-        {
+            Pagintion pagintion = questionservice.list(user.getId(), page, size);
+            model.addAttribute("pagintion", pagintion);
+        } else if ("replies".equals(action)) {
+            Pagintion pagintion = notificationServer.list(user.getId(), page, size);
+
             model.addAttribute("section", "replies");
             model.addAttribute("sectionName", "最新回复");
+
+            model.addAttribute("pagintion", pagintion);
         }
 
-        Pagintion pagintion =questionservice.list(user.getId(),page,size);
-        model.addAttribute("pagintion",pagintion);
-        return  "profile";
+
+        return "profile";
     }
 }

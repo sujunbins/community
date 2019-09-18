@@ -18,17 +18,17 @@
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
             <h1><span class="glyphicon glyphicon-list" aria-hidden="true"></span> 发现</h1>
             <hr>
-            <div class="media" th:each="question:${pagintion.questionDTOS}">
+            <div class="media" th:each="question:${pagintion.data}">
                 <div class="media-left media-middle">
                     <a href="#">
                         <img class="media-object index_image img-rounded" th:src="${question.user.avatarUrl}" alt="海贼王">
                     </a>
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading " >
+                    <h3 class="media-heading " >
                         <a th:href="@{'/question/'+${question.id}}" th:text="${question.title}"></a>
-                    </h4>
-                    <p class="title">点击进入文章</p>
+                    </h3>
+
                     <span class="index_tag" th:text="	 ${question.likeCount} +'人关注 •' +${question.commentCount}+' 个回复 •'+${question.viewCount}  +'次浏览 •'+
                            ${#dates.format(question.gmtCreate, 'yyyy-MM-dd')}"> </span>
 

@@ -10,8 +10,8 @@ import java.util.List;
  * @date: 2019/9/5 15:25
  */
 @Data
-public class Pagintion {
-    private List<QuestionDTO> questionDTOS;
+public class Pagintion<T> {
+    private List<T> data;
     private boolean showPrevious;
     private boolean showFirstPage;
     private boolean showNext;

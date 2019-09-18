@@ -11,7 +11,10 @@ public enum  CustomizeErrorcode implements ICustomizeException {
     NO_LOGIN(2003,"当前操作需要登录，请登录后进行操作"),
     SYSTEM_ERROR(2004,"服务器冒烟了，要不再试试！！！"),
     TYPE_NOT_FOUND(2005,"评论类型不匹配"),
-    COMMENT_NOT_FOUND(2006,"回复的评论不存在，要不要再试试" );
+    COMMENT_NOT_FOUND(2006,"回复的评论不存在，要不要再试试" ),
+    COMMENT_IS_EMPTY(2007,"输入内容不能为空"),
+    READ_NOTIFICATION_FAIL(2008,"消息错误"),
+    NOTIFICATION_NOT_FOUND(2007,"消息不见了");
     private String message;
 
     private Integer code;

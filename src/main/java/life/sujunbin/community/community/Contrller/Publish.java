@@ -1,16 +1,20 @@
 package life.sujunbin.community.community.Contrller;
 
+import life.sujunbin.community.community.Config.TagCache;
 import life.sujunbin.community.community.model.Question;
 import life.sujunbin.community.community.model.User;
 import life.sujunbin.community.community.pojo.QuestionDTO;
 
+import life.sujunbin.community.community.pojo.TagDTO;
 import life.sujunbin.community.community.service.Questionservice;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @author: 苏俊滨
@@ -29,12 +33,16 @@ public class Publish {
         model.addAttribute("description", questionDTO.getDescription());
         model.addAttribute("tag", questionDTO.getTag());
         model.addAttribute("id", questionDTO.getId());
+
         return "publish";
     }
 
 
     @GetMapping("/publish")
-    public String publish() {
+    public String publish(Model model)
+    {
+        List<TagDTO> tags = TagCache.get();
+        model.addAttribute("tags", tags);
         return "publish";
     }
 
@@ -63,6 +71,13 @@ public class Publish {
             return "publish";
         }
 
+        String invalid = TagCache.fillterInvalid(tag);
+        if(StringUtils.isNoneBlank(invalid))
+        {
+            model.addAttribute("error", "输入非法标签"+invalid);
+            return "publish";
+
+        }
         User user = (User) request.getSession().getAttribute("user");
         if (user == null) {
             model.addAttribute("error", "用户未登录");

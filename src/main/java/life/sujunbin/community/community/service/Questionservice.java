@@ -12,13 +12,16 @@ import life.sujunbin.community.community.model.UserExample;
 import life.sujunbin.community.community.pojo.Pagintion;
 import life.sujunbin.community.community.model.Question;
 import life.sujunbin.community.community.pojo.QuestionDTO;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author: 苏俊滨
@@ -34,7 +37,7 @@ public class Questionservice {
     private QuestionExtMapper questionExtMapper;
 
     public Pagintion get_index_list(Integer page, Integer size) {
-        Pagintion pagintion = new Pagintion();
+        Pagintion<QuestionDTO> pagintion = new Pagintion<>();
         Integer totalCount = (int)questionMapper.countByExample(new QuestionExample());
 
         pagintion.setPagintion(totalCount, page, size);
@@ -47,7 +50,9 @@ public class Questionservice {
 
         Integer offset = size * (page - 1);
 
-        List<Question> questions = questionMapper.selectByExampleWithRowbounds(new QuestionExample(),new RowBounds(offset,size));
+        QuestionExample questionExample = new QuestionExample();
+        questionExample.setOrderByClause("gmt_create desc");
+        List<Question> questions = questionMapper.selectByExampleWithRowbounds(questionExample,new RowBounds(offset,size));
 
         List<QuestionDTO> questionDTOS = new ArrayList<>();
 
@@ -59,14 +64,14 @@ public class Questionservice {
             questionDTOS.add(questionDTO);
         }
 
-        pagintion.setQuestionDTOS(questionDTOS);
+        pagintion.setData(questionDTOS);
 
 
         return pagintion;
     }
 
     public Pagintion list(Long userId, Integer page, Integer size) {
-        Pagintion pagintion = new Pagintion();
+        Pagintion<QuestionDTO> pagintion = new Pagintion<>();
         QuestionExample questionExample = new QuestionExample();
         questionExample.createCriteria().andCreatorEqualTo(userId);
         Integer totalCount = (int)questionMapper.countByExample(questionExample);
@@ -87,7 +92,7 @@ public class Questionservice {
             questionDTO.setUser(user);
             questionDTOS.add(questionDTO);
         }
-        pagintion.setQuestionDTOS(questionDTOS);
+        pagintion.setData(questionDTOS);
 
 
         return pagintion;
@@ -148,5 +153,28 @@ public class Questionservice {
         questionExtMapper.insertComment(question);
 
     }
+    public List<QuestionDTO> selectRelated(QuestionDTO questionDTO)
+    {
+        if(StringUtils.isBlank(questionDTO.getTag()))
+        {
+            return new ArrayList<>();
+        }
+        String[] tags = StringUtils.split(questionDTO.getTag(),"，");
+        String regexpTag = Arrays.stream(tags).collect(Collectors.joining("|"));
+        Question question = new Question();
+        question.setId(questionDTO.getId());
+        question.setTag(regexpTag);
+
+        List<Question> questions = questionExtMapper.selectRelated(question);
+        List<QuestionDTO> questionDTOS = questions.stream().map(q->{
+            QuestionDTO questiondto = new QuestionDTO();
+            BeanUtils.copyProperties(q, questiondto);
+            return questiondto;
+        }).collect(Collectors.toList());
+        return questionDTOS;
+    }
+
+
+
 }
 
